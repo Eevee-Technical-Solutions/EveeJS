@@ -49,9 +49,29 @@ const Main = () => {
         setItemData(data[0]);
       })
       .catch((err) => console.log(err));
-  }, []);
+  },[]);
+
+  const handleBid = () => {
+
+    const bid = itemData.startingPrice + 20
+
+    const user = "player1"
+
+    const itemName = itemData.name
+
+
+    const options = {
+      method: "POST",
+      body: JSON.stringify({bid: bid, user: user, itemName: itemName})
+    }
+
+    fetch("/api/bid", options)
+    .then(data => data.json())
+    .catch(e => console.log("error in sending bid => ", e))
+  }
 
   return (
+    <React.Fragment>
     <Card className='main'>
       <CardActionArea>
         <CardMedia className={classes.media} image='' title='Auction' />
@@ -68,11 +88,13 @@ const Main = () => {
         <Card size='small' color='primary'>
           {itemData.startingPrice}
         </Card>
-        <Button size='small' color='primary'>
+        <Button onClick={handleBid} size='small' color='primary'>
           Bid
         </Button>
       </CardActions>
     </Card>
+    <Timer item={itemData} setItem={setItemData}/>
+    </React.Fragment>
   );
 };
 
