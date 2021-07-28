@@ -49,7 +49,7 @@ const Main = () => {
         setItemData(data[0]);
       })
       .catch((err) => console.log(err));
-  });
+  }, []);
 
   return (
     <Card className='main'>
