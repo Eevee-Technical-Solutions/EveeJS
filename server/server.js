@@ -4,13 +4,14 @@ const path = require('path');
 const mode = process.env.NODE_ENV;
 
 // require routers
+const auctionRouter = require('./routes/auctionRouter');
 
 // handling parsing request body
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // define route handlers
+app.use('/api', auctionRouter);
 
 // route handler to respond with main app
 app.get('/', (req, res) => {
@@ -44,4 +45,5 @@ if (mode === 'production') {
     return res.status(200).sendFile(path.join(__dirname, '../index.html'));
   });
 }
-app.listen(3000, () => console.log('express is listening')); //listens on port 3000 -> http://localhost:3000/
+
+app.listen(3000, () => console.log('express is listening')); 

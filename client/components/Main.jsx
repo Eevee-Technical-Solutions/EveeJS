@@ -1,22 +1,21 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 // importing Link from react router dom
 import { Link } from 'react-router-dom';
 
-// component imports form material-UI
+// importing componenets from Material UI
 import {
-  Drawer,
   Button,
-  List,
+  Card,
+  CardActionArea,
+  CardMedia,
+  CardContent,
+  CardActions,
   Divider,
-  ListItem,
-  ListItemText,
+  Typography,
+  Input,
+  makeStyles,
 } from '@material-ui/core';
-
-// imports for customizing styles
-// clsx allows for conditional styling to be used - unsure if we will need clsx
-import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
   list: {
@@ -28,50 +27,52 @@ const useStyles = makeStyles({
 });
 
 const Main = () => {
-  // state to determine if menu is open or close
-  const [state, setState] = useState({ open: false });
-
   // creating a classes variable to customize styles
   const classes = useStyles();
-  // function that return menu items
-  const menuItems = () => {
-    return (
-      <div
-        role='presentation'
-        onClick={() => setState({ open: false })}
-        className={classes.list}
-      >
-        <List>
-          {/* list item 1 */}
-          <Link to='tada'>
-          <ListItem button key='Mode'>
-            <ListItemText primary='Tada' />
-            </ListItem>
-          </Link>
-          <Divider />
-          {/* list item 2 */}
-          <ListItem button key='darkMode'>
-            <ListItemText primary='Wassup' />
-            <Link to='wassup'></Link>
-          </ListItem>
-        </List>
-      </div>
-    );
-  };
+
+  // creating state to hold data
+
+  const [itemData, setItemData] = useState({
+    itemid: 0,
+    name: '',
+    description: '',
+    startingPrice: 0,
+    Url: '',
+    isComplete: false,
+  });
+
+  useEffect(() => {
+    fetch('/api/homepage')
+      .then((data) => data.json())
+      .then((data) => {
+        console.log('item data fetched /api/homepage =>', data);
+        setItemData(data[0]);
+      })
+      .catch((err) => console.log(err));
+  });
 
   return (
-    <div>
-      <React.Fragment>
-        <Button onClick={() => setState({ open: true })}>Open Menu</Button>
-        <Drawer
-          anchor='left'
-          open={state.open}
-          onClose={() => setState({ open: false })}
-        >
-          {state.open ? menuItems() : null}
-        </Drawer>
-      </React.Fragment>
-    </div>
+    <Card className='main'>
+      <CardActionArea>
+        <CardMedia className={classes.media} image='' title='Auction' />
+        <CardContent>
+          <Typography gutterBottom variant='h5' component='h2'>
+            {itemData.name}
+          </Typography>
+          <Typography variant='body2' color='textSecondary' component='p'>
+            {itemData.description}
+          </Typography>
+        </CardContent>
+      </CardActionArea>
+      <CardActions>
+        <Card size='small' color='primary'>
+          {itemData.startingPrice}
+        </Card>
+        <Button size='small' color='primary'>
+          Bid
+        </Button>
+      </CardActions>
+    </Card>
   );
 };
 
