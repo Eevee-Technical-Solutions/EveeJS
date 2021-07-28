@@ -11,12 +11,13 @@ import Login from './components/Login.jsx';
 const App = () => {
   return (
     <>
-      <Router>
-        <Switch>
-          <Route path='/' exact component={Main} />
+      {/* <Router>
+        <Switch> */}
+          {/* <Route path='/' exact component={Main} /> */}
           {/* <Route path='/' exact component={Login} /> */}
-        </Switch>
-      </Router>
+        {/* </Switch>
+      </Router> */}
+        <a href="/auth/github">login with github</a>
     </>
   );
 };

@@ -72,28 +72,28 @@ const Main = () => {
 
   return (
     <React.Fragment>
-    <Card className='main'>
-      <CardActionArea>
-        <CardMedia className={classes.media} image='' title='Auction' />
-        <CardContent>
-          <Typography gutterBottom variant='h5' component='h2'>
-            {itemData.name}
-          </Typography>
-          <Typography variant='body2' color='textSecondary' component='p'>
-            {itemData.description}
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-      <CardActions>
-        <Card size='small' color='primary'>
-          {itemData.startingPrice}
-        </Card>
-        <Button onClick={handleBid} size='small' color='primary'>
-          Bid
-        </Button>
-      </CardActions>
-    </Card>
-    <Timer item={itemData} setItem={setItemData}/>
+      <Card className='main'>
+        <CardActionArea>
+          <CardMedia className={classes.media} image='' title='Auction' />
+          <CardContent>
+            <Typography gutterBottom variant='h5' component='h2'>
+              {itemData.name}
+            </Typography>
+            <Typography variant='body2' color='textSecondary' component='p'>
+              {itemData.description}
+            </Typography>
+          </CardContent>
+        </CardActionArea>
+        <CardActions>
+          <Card size='small' color='primary'>
+            {itemData.startingPrice}
+          </Card>
+          <Button onClick={handleBid} size='small' color='primary'>
+            Bid
+          </Button>
+        </CardActions>
+      </Card>
+      <Timer item={itemData} setItem={setItemData}/>
     </React.Fragment>
   );
 };

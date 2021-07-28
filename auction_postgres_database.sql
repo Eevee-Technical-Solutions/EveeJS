@@ -29,6 +29,14 @@ SET row_security = off;
 --   "itemId" BIGINT,
 --   "userId" BIGINT
 -- );
+
+-- itemid: 0,
+--     name: '',
+--     description: '',
+--     startingPrice: 0,
+--     Url: '',
+--     isComplete: false,
+
 -- SELECT * FROM "public"."bids" INNER JOIN "public"."user" ON "bids"."userId" = "user"."userId" INNER JOIN "user"."userId" ON "bids"."userId"
 
 
