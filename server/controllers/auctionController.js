@@ -20,6 +20,8 @@ auctionController.getItem = async (req, res, next) => {
 };
 
 auctionController.bidItem = async (req, res, next) => {
+  console.log('this is the request body =>', req.body);
+
   const { bid, user, itemName } = req.body;
 
   const searchQuery = `SELECT * FROM "bids" a
@@ -34,30 +36,37 @@ auctionController.bidItem = async (req, res, next) => {
     const userId = results.rows[0].userId;
 
     const bidQuery =
-      'UPDATE bids SET bidPrice = $1 WHERE itemId = $2 AND userId =$3';
+      'UPDATE bids SET "bidPrice" = $1 WHERE "itemId" = $2 AND "userId" = $3 RETURNING "bidPrice"';
 
-    await db.query(bidQuery, [bid, itemId, userId]);
+    const updated = await db.query(bidQuery, [bid, itemId, userId]);
+
+    console.log('updated row line 43', updated.rows);
+    res.locals.updated = updated.rows;
 
     return next();
   } catch (e) {
+    console.log('error in auctioncontrooler.bid', e);
     return next({ Err: `Error in quering for updating bid, ${e}` });
   }
 };
 
 auctionController.getWinner = async (req, res, next) => {
   const { itemName } = req.body;
+  console.log('itemName in controller', itemName);
 
   const searchQuery = `SELECT * FROM "item" a
 INNER JOIN "bids" b ON a."itemId" = b."itemId"
 INNER JOIN "user" c ON b."userId" = c."userId"
-WHERE a."name" = 'dog'
+WHERE a."name" = $1
 ORDER BY b."bidPrice" DESC LIMIT 1`;
 
   try {
     const results = await db.query(searchQuery, [itemName]);
 
     res.locals.winner = results.rows;
+    console.log('results.rows after query =>', results.rows);
   } catch (e) {
+    console.log('getwinner error => ', e);
     return next({ Err: `Error in quering for getting Winner, ${e}` });
   }
 };

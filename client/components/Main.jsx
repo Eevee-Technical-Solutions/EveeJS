@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-
+import Timer from './Timer';
 // importing Link from react router dom
 import { Link } from 'react-router-dom';
 
@@ -49,51 +49,57 @@ const Main = () => {
         setItemData(data[0]);
       })
       .catch((err) => console.log(err));
-  },[]);
+  }, []);
 
   const handleBid = () => {
+    const bid = Number(itemData.startingPrice) + 20;
 
-    const bid = itemData.startingPrice + 20
+    const user = 'player1';
 
-    const user = "player1"
-
-    const itemName = itemData.name
-
+    const itemName = itemData.name;
 
     const options = {
-      method: "POST",
-      body: JSON.stringify({bid: bid, user: user, itemName: itemName})
-    }
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ bid: bid, user: user, itemName: itemName }),
+    };
 
-    fetch("/api/bid", options)
-    .then(data => data.json())
-    .catch(e => console.log("error in sending bid => ", e))
-  }
+    console.log(options.body);
+
+    fetch('/api/bid', options)
+      .then((data) => data.json())
+      .then((data) =>
+        setItemData({ ...itemData, startingPrice: data[0].bidPrice })
+      )
+      .catch((e) => console.log('error in sending bid => ', e));
+  };
 
   return (
     <React.Fragment>
-    <Card className='main'>
-      <CardActionArea>
-        <CardMedia className={classes.media} image='' title='Auction' />
-        <CardContent>
-          <Typography gutterBottom variant='h5' component='h2'>
-            {itemData.name}
-          </Typography>
-          <Typography variant='body2' color='textSecondary' component='p'>
-            {itemData.description}
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-      <CardActions>
-        <Card size='small' color='primary'>
-          {itemData.startingPrice}
-        </Card>
-        <Button onClick={handleBid} size='small' color='primary'>
-          Bid
-        </Button>
-      </CardActions>
-    </Card>
-    <Timer item={itemData} setItem={setItemData}/>
+      <Card className='main'>
+        <CardActionArea>
+          <CardMedia className={classes.media} image='' title='Auction' />
+          <CardContent>
+            <Typography gutterBottom variant='h5' component='h2'>
+              {itemData.name}
+            </Typography>
+            <Typography variant='body2' color='textSecondary' component='p'>
+              {itemData.description}
+            </Typography>
+          </CardContent>
+        </CardActionArea>
+        <CardActions>
+          <Card size='small' color='primary'>
+            {itemData.startingPrice}
+          </Card>
+          <Button onClick={handleBid} size='small' color='primary'>
+            Bid
+          </Button>
+        </CardActions>
+      </Card>
+      <Timer item={itemData} setItem={setItemData} />
     </React.Fragment>
   );
 };

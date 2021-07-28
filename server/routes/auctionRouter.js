@@ -7,16 +7,12 @@ router.get('/homepage', auctionController.getItem, (req, res, next) => {
 });
 
 router.post('/bid', auctionController.bidItem, (req, res, next) => {
-  return res.status(200).json('bidPrice has been updated');
+  return res.status(200).json(res.locals.updated);
 });
 
-router.get(
-  '/winner',
-  auctionController.getWinner,
-  auctionController.getItem,
-  (req, res, next) => {
-    return res.status(200).json([res.locals.winner, res.locals.item]);
-  }
-);
+router.post('/winner', auctionController.getWinner, (req, res, next) => {
+  console.log('before we send it', res.locals.winner);
+  return res.status(200).json(res.locals.winner);
+});
 
 module.exports = router;
