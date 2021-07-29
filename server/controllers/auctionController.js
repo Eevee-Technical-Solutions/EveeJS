@@ -3,7 +3,7 @@ const db = require('../models/auctionModel');
 const auctionController = {};
 
 auctionController.getItem = async (req, res, next) => {
-  const searchQuery = 'SELECT * FROM "item"';
+  const searchQuery = 'SELECT * FROM "item" ORDER BY "itemId"';
 
   try {
     const results = await db.query(searchQuery);
@@ -49,7 +49,7 @@ auctionController.bidItem = async (req, res, next) => {
     //  Need to update starting price to match bid, query works as a stand alone
     // const updateStartingPriceQuery = 'UPDATE item SET "startingPrice" = $1 WHERE "itemId" = $2';
     // const updatStartingPrice = await db.query(updateStartingPriceQuery, [updated, itemId]);
-    const updated2 = await db.query('SELECT * FROM "item"');
+    const updated2 = await db.query('SELECT * FROM "item" ORDER BY "itemId"');
     console.log('updated row line 43', updated2.rows);
     res.locals.updated2 = updated2.rows;
 
