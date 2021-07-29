@@ -3,8 +3,7 @@ const db = require('../models/auctionModel');
 const auctionController = {};
 
 auctionController.getItem = async (req, res, next) => {
-  const searchQuery =
-    'SELECT * FROM "item"';
+  const searchQuery = 'SELECT * FROM "item"';
 
   try {
     const results = await db.query(searchQuery);
@@ -35,10 +34,20 @@ auctionController.bidItem = async (req, res, next) => {
     const itemId = results.rows[0].itemId;
     const userId = results.rows[0].userId;
 
-    const bidQuery =
-      'UPDATE bids SET "bidPrice" = $1 WHERE "itemId" = $2 AND "userId" = $3 RETURNING "bidPrice"';
 
+    // Original bidQuery, changed so we can update multiple tables
+    // const bidQuery =
+    //   'UPDATE bids SET "bidPrice" = $1 WHERE "itemId" = $2 AND "userId" = $3 RETURNING "bidPrice"';
+    const bidQuery = `With newBid as (
+      UPDATE bids SET "bidPrice" = $1 
+      WHERE "itemId" = $2 AND "userId" = $3)
+      UPDATE item SET "startingPrice" = $1 
+      WHERE "itemId"= $2`
     const updated = await db.query(bidQuery, [bid, itemId, userId]);
+
+    //  Need to update starting price to match bid, query works as a stand alone
+    // const updateStartingPriceQuery = 'UPDATE item SET "startingPrice" = $1 WHERE "itemId" = $2';
+    // const updatStartingPrice = await db.query(updateStartingPriceQuery, [updated, itemId]);
 
     console.log('updated row line 43', updated.rows);
     res.locals.updated = updated.rows;
