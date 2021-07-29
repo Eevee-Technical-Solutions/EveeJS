@@ -40,15 +40,15 @@ SET row_security = off;
 -- SELECT * FROM "public"."bids" INNER JOIN "public"."user" ON "bids"."userId" = "user"."userId" INNER JOIN "user"."userId" ON "bids"."userId"
 
 
--- INSERT INTO "item" ("itemId", "name", "description", "startingPrice","isComplete") VALUES (DEFAULT, 'cat', 'Very nice cat', 252, false);
--- INSERT INTO "item" ("itemId", "name", "description", "startingPrice","isComplete") VALUES (DEFAULT, 'pokemon card', 'Eevee special edition', 25, false);
--- INSERT INTO "item" ("itemId", "name", "description", "startingPrice","isComplete") VALUES (DEFAULT, 'dog', 'Corgi!', 25, false);
--- INSERT INTO "item" ("itemId", "name", "description", "startingPrice","isComplete") VALUES (DEFAULT, 'GPU', 'gtx 270', 25, false);
--- INSERT INTO "item" ("itemId", "name", "description", "startingPrice","isComplete") VALUES (DEFAULT, 'Thermal', 'Zorushi thermal', 25, false);
--- INSERT INTO "item" ("itemId", "name", "description", "startingPrice","isComplete") VALUES (DEFAULT, 'ninja', 'Very nice ninja', 25, false);
--- INSERT INTO "item" ("itemId", "name", "description", "startingPrice","isComplete") VALUES (DEFAULT, 'school', 'Very nice school', 222, false);
--- INSERT INTO "item" ("itemId", "name", "description", "startingPrice","isComplete") VALUES (DEFAULT, 'rat', 'Very nice rat', 2, false);
--- INSERT INTO "item" ("itemId", "name", "description", "startingPrice","isComplete") VALUES (DEFAULT, 'bus', 'Very nice bus', 253, false);
+INSERT INTO "item" ("itemId", "name", "description", "startingPrice", "Url", "isComplete") VALUES (DEFAULT, 'Original Pikachu Card', 'With gloriously chubby cheeks and a tubby body, this original pikachu card is highly collectible!', 10, false); 
+INSERT INTO "item" ("itemId", "name", "description", "startingPrice", "Url", "isComplete") VALUES (DEFAULT, 'Original Bulbasaur Card', 'An original bulbasaur capable of razor leafing its way into your heart!', 25, “https://imgur.com/jPbW4JN”, false);
+INSERT INTO "item" ("itemId", "name", "description", "startingPrice", "Url", "isComplete") VALUES (DEFAULT, 'Original Mewtwo Card', 'The legendary nigh untameable Mewtwo now available in card form to crush your enemies and make them question the meaning of life.', 45, “https://imgur.com/sC2AHgK”, false);
+INSERT INTO "item" ("itemId", "name", "description", "startingPrice", "Url", "isComplete") VALUES (DEFAULT, 'Shiny Charizard', 'Of the original pokemon card productions, this is one of the rarest and most coveted. Desired by collectors across the world ', 170,000, “https://imgur.com/HJnrdK8”, false);
+INSERT INTO "item" ("itemId", "name", "description", "startingPrice", "Url", "isComplete") VALUES (DEFAULT, 'Original Magikarp Card', 'With little capabilities but an incredible destiny, this Magikarp will splash its way into your deck!', 2, “https://imgur.com/dwMCZ0T”, false);
+INSERT INTO "item" ("itemId", "name", "description", "startingPrice", "Url", "isComplete") VALUES (DEFAULT, 'Holo Gold Star Rayquaza', 'Featuring an embossed foil star to mark its rarity, you too can own this alternate version of the legendary Pokemon!', 45100, false);
+INSERT INTO "item" ("itemId", "name", "description", "startingPrice", "Url", "isComplete") VALUES (DEFAULT, 'school', 'Very nice school', 222, false);
+INSERT INTO "item" ("itemId", "name", "description", "startingPrice", "Url", "isComplete") VALUES (DEFAULT, 'Holographic Lugia', 'The star of Pokemon Silver, this legendary pokemon card can now be yours!', 129000, "https://BSA3CQc", false);
+INSERT INTO "item" ("itemId", "name", "description", "startingPrice", "Url", "isComplete") VALUES (DEFAULT, 'Original Eevee Card', 'Vintage Eevee never played in excellent condition', 253, "https://imgur.com/huAGJec", false);
 
 
 -- INSERT INTO "user" ("userId", "userName") VALUES (DEFAULT, 'player1');

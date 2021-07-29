@@ -56,26 +56,30 @@ const Main = () => {
 
   const handleBid = (e) => {
     e.preventDefault();
-    const etargetID = e.target.id
-    const bid = Number(itemData.startingPrice) + 20;
-    const user = 'player1';
-    const itemName = itemData.name;
+    console.log("from handleBid", e.target)
+    const nameOfBidItem = e.target.id
+    // const bid = Number(itemData.startingPrice) + 20;
+    const bid = Number(e.target.value) + 25
+    console.log("from handleBid bid", bid)
+    const user = 'player2';
+
+
 
     const options = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ bid: bid, user: user, itemName: itemName }),
+      body: JSON.stringify({ bid: bid, user: user, itemName: nameOfBidItem }),
     };
 
-    console.log(options.body);
+    // console.log(options.body);
 
     fetch('/api/bid', options)
       .then((data) => data.json())
       .then((data) => {
-        console.log(data);
-        setItemData({ ...itemData, startingPrice: data.bidPrice })
+        console.log("from fetch in handleBid",data);
+        //setItemData({ ...itemData, startingPrice: bid })
       })
       .catch((e) => console.log('error in sending bid => ', e));
 
@@ -83,7 +87,7 @@ const Main = () => {
 
   return (
     <React.Fragment>
-      <Card className={classes.wrapper}
+      <Card className={classes.wrapper}>
         {itemData.map(el => (
           <div className={classes.media} >
             <CardActionArea>
@@ -101,7 +105,7 @@ const Main = () => {
               <Card size='small' color='primary'>
                 {el.startingPrice}
               </Card>
-              <button id = {String(el.itemId)} onClick={handleBid} size='small' color='primary'>
+              <button id = {el.name} value={el.startingPrice} onClick={handleBid} size='small' color='primary'>
                 Bid
               </button>
             </CardActions>
