@@ -4,7 +4,7 @@ const auctionController = {};
 
 auctionController.getItem = async (req, res, next) => {
   const searchQuery =
-    'SELECT * FROM "item" WHERE "isComplete" = false ORDER BY "itemId" LIMIT 1';
+    'SELECT * FROM "item"';
 
   try {
     const results = await db.query(searchQuery);
@@ -45,7 +45,7 @@ auctionController.bidItem = async (req, res, next) => {
 
     return next();
   } catch (e) {
-    console.log('error in auctioncontrooler.bid', e);
+    console.log('error in auctioncontroller.bid', e);
     return next({ Err: `Error in quering for updating bid, ${e}` });
   }
 };

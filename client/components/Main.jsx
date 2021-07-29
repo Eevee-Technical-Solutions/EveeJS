@@ -24,6 +24,14 @@ const useStyles = makeStyles({
   fullList: {
     width: 'auto',
   },
+  wrapper: {
+    display: 'grid'
+  },
+  media: {
+    display: 'flex',
+    flexDirection: "column",
+  }
+
 });
 
 const Main = () => {
@@ -32,30 +40,25 @@ const Main = () => {
 
   // creating state to hold data
 
-  const [itemData, setItemData] = useState({
-    itemid: 0,
-    name: '',
-    description: '',
-    startingPrice: 0,
-    Url: '',
-    isComplete: false,
-  });
+  const [itemData, setItemData] = useState([]);
 
   useEffect(() => {
     fetch('/api/homepage')
       .then((data) => data.json())
       .then((data) => {
         console.log('item data fetched /api/homepage =>', data);
-        setItemData(data[0]);
+        //data is now an array of items
+        //modify handle submit and send it when the function with unique identifier
+        setItemData(data);
       })
       .catch((err) => console.log(err));
   }, []);
 
-  const handleBid = () => {
+  const handleBid = (e) => {
+    e.preventDefault();
+    const etargetID = e.target.id
     const bid = Number(itemData.startingPrice) + 20;
-
     const user = 'player1';
-
     const itemName = itemData.name;
 
     const options = {
@@ -70,38 +73,44 @@ const Main = () => {
 
     fetch('/api/bid', options)
       .then((data) => data.json())
-      .then((data) =>
-        setItemData({ ...itemData, startingPrice: data[0].bidPrice })
-      )
+      .then((data) => {
+        console.log(data);
+        setItemData({ ...itemData, startingPrice: data.bidPrice })
+      })
       .catch((e) => console.log('error in sending bid => ', e));
+
   };
 
   return (
     <React.Fragment>
-      <Card className='main'>
-        <CardActionArea>
-          <CardMedia className={classes.media} image='' title='Auction' />
-          <CardContent>
-            <Typography gutterBottom variant='h5' component='h2'>
-              {itemData.name}
-            </Typography>
-            <Typography variant='body2' color='textSecondary' component='p'>
-              {itemData.description}
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-        <CardActions>
-          <Card size='small' color='primary'>
-            {itemData.startingPrice}
-          </Card>
-          <Button onClick={handleBid} size='small' color='primary'>
-            Bid
-          </Button>
-        </CardActions>
+      <Card className={classes.wrapper}
+        {itemData.map(el => (
+          <div className={classes.media} >
+            <CardActionArea>
+              <CardMedia image='' title='Auction' />
+              <CardContent>
+                <Typography gutterBottom variant='h5' component='h2' >
+                  {el.name}
+                </Typography>
+                <Typography variant='body2' color='textSecondary' component='p'>
+                  {el.description}
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+            <CardActions>
+              <Card size='small' color='primary'>
+                {el.startingPrice}
+              </Card>
+              <button id = {String(el.itemId)} onClick={handleBid} size='small' color='primary'>
+                Bid
+              </button>
+            </CardActions>
+          </div >
+        ))}
       </Card>
-      <Timer item={itemData} setItem={setItemData} />
     </React.Fragment>
   );
 };
 
 export default Main;
+{/* <Timer item={itemData} setItem={setItemData} /> */ }
