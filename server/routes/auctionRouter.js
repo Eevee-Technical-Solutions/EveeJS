@@ -7,7 +7,7 @@ router.get('/homepage', auctionController.getItem, (req, res, next) => {
 });
 
 router.post('/bid', auctionController.bidItem, (req, res, next) => {
-  return res.status(200).json(res.locals.updated);
+  return res.status(200).json(res.locals.updated2);
 });
 
 router.post('/winner', auctionController.getWinner, (req, res, next) => {
