@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Timer from './Timer';
 // importing Link from react router dom
 import { Link } from 'react-router-dom';
-
+import './Main.css';
 // importing componenets from Material UI
 import {
   Button,
@@ -91,11 +91,34 @@ const Main = () => {
 
   return (
     <React.Fragment>
-      <Card className={classes.wrapper}>
+      <div className='card-list'>
+        {itemData.map(el => (
+          <div className='card' >
+              <img src={el.Url} title='Auction'/>
+              <div className='card-header'>
+                <h2>
+                  {el.name}
+                </h2>
+                <article className='card-desc' variant='body2' color='textSecondary' component='p'>
+                  {el.description}
+                </article>
+              </div>
+            <CardActions className="card-desc">
+              <Card size='small' color='primary'>
+                {el.startingPrice}
+              </Card>
+              <button id = {el.name} value={el.startingPrice} onClick={handleBid} size='small' color='primary'>
+                Bid
+              </button>
+            </CardActions>
+          </div >
+        ))}
+      </div>
+      {/* <Card className={classes.wrapper}>
         {itemData.map(el => (
           <div className={classes.media} >
             <CardActionArea>
-              <CardMedia image='' title='Auction' />
+              <CardMedia image={el.Url} title='Auction' />
               <CardContent>
                 <Typography gutterBottom variant='h5' component='h2' >
                   {el.name}
@@ -115,7 +138,7 @@ const Main = () => {
             </CardActions>
           </div >
         ))}
-      </Card>
+      </Card> */}
     </React.Fragment>
   );
 };
