@@ -55,15 +55,14 @@ const Main = () => {
   }, []);
 
   const handleBid = (e) => {
-    e.preventDefault();
+    //e.preventDefault();
     console.log("from handleBid", e.target)
     const nameOfBidItem = e.target.id
     // const bid = Number(itemData.startingPrice) + 20;
     const bid = Number(e.target.value) + 25
     console.log("from handleBid bid", bid)
     const user = 'player2';
-
-
+    
 
     const options = {
       method: 'POST',
@@ -73,13 +72,18 @@ const Main = () => {
       body: JSON.stringify({ bid: bid, user: user, itemName: nameOfBidItem }),
     };
 
-    // console.log(options.body);
+    console.log(options.body);
 
     fetch('/api/bid', options)
       .then((data) => data.json())
       .then((data) => {
-        console.log("from fetch in handleBid",data);
-        //setItemData({ ...itemData, startingPrice: bid })
+        //console.log("from fetch in handleBid",data);
+      //   data.map(el => {if(el.itemId = nameOfBidItem){
+      //     setItemData()
+      //   }
+      // }
+      console.log(data)
+        setItemData(data)
       })
       .catch((e) => console.log('error in sending bid => ', e));
 

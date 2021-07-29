@@ -43,14 +43,15 @@ auctionController.bidItem = async (req, res, next) => {
       WHERE "itemId" = $2 AND "userId" = $3)
       UPDATE item SET "startingPrice" = $1 
       WHERE "itemId"= $2`
+
     const updated = await db.query(bidQuery, [bid, itemId, userId]);
 
     //  Need to update starting price to match bid, query works as a stand alone
     // const updateStartingPriceQuery = 'UPDATE item SET "startingPrice" = $1 WHERE "itemId" = $2';
     // const updatStartingPrice = await db.query(updateStartingPriceQuery, [updated, itemId]);
-
-    console.log('updated row line 43', updated.rows);
-    res.locals.updated = updated.rows;
+    const updated2 = await db.query('SELECT * FROM "item"');
+    console.log('updated row line 43', updated2.rows);
+    res.locals.updated2 = updated2.rows;
 
     return next();
   } catch (e) {
