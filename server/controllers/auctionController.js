@@ -62,9 +62,10 @@ ORDER BY b."bidPrice" DESC LIMIT 1`;
 
   try {
     const results = await db.query(searchQuery, [itemName]);
+    console.log('results.rows after query =>', results.rows[0]['userName']);
+    res.locals.winner = results.rows[0]['userName']//['userName'];
 
-    res.locals.winner = results.rows;
-    console.log('results.rows after query =>', results.rows);
+    return next();
   } catch (e) {
     console.log('getwinner error => ', e);
     return next({ Err: `Error in quering for getting Winner, ${e}` });

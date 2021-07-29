@@ -3,6 +3,30 @@ const app = express();
 const path = require('path');
 const mode = process.env.NODE_ENV;
 
+//Importing Passport Modules
+const passport = require('passport');
+var GitHubStrategy = require('passport-github2').Strategy;
+
+
+passport.use(new GitHubStrategy({
+  clientID: "601f5bf1853f34406920",
+  clientSecret: "257ac62d616e151dbe2251febf755ddf7e06d411",
+  callbackURL: "http://localhost:8080/auth/github/callback"
+},
+
+function(accessToken, refreshToken, profile, done) {
+ //  User.findOrCreate({ githubId: profile.id }, function (err, user) {
+ //    return cb(err, user);
+ //  });
+ console.log(profile)
+ return cb(null, profile)
+}
+));
+
+
+
+
+
 // require routers
 const auctionRouter = require('./routes/auctionRouter');
 
@@ -18,6 +42,24 @@ app.get('/', (req, res) => {
   // console.log(response);
   return res.status(200).sendFile(path.resolve(__dirname, '../index.html'));
 });
+
+
+
+//auth user
+// app.get('/auth/github', passport.authenticate('github'));
+app.get('/auth/github',
+  passport.authenticate('github', { scope: [ 'user:email' ] }),
+  function(req, res){
+    // The request will be redirected to GitHub for authentication, so this
+    // function will not be called.
+  });
+
+app.get('/auth/github/callback', 
+  passport.authenticate('github', { failureRedirect: '/login' }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+    res.redirect('/');
+  });
 
 // catch-all route handler for any requests to an unknown route
 app.use((req, res) => {

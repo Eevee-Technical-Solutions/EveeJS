@@ -44,8 +44,9 @@ const Timer = (props) => {
   //   .catch((e) => console.log('error in updating item', e));
   // }
   // }, 10000);
-
-  const handleGetWinner = () => {
+  
+  const handleGetWinner = (e) => {
+    let lastWinner = ''
     // console.log("do you exist?", props.item.name)
     const options = {
       method: 'POST',
@@ -58,10 +59,12 @@ const Timer = (props) => {
     fetch('/api/winner', options)
       .then((data) => data.json())
       .then((data) => {
-        console.log('bkdjkjsadfkjsfkjhdf');
-        console.log(data[0]['userName']);
+        lastWinner = data;
+        console.log("winner from handleGetWinner", lastWinner)
       })
       .catch((e) => console.log('error in fecting winner,', e));
+
+      //console.log("winner from handleGetWinner", lastWinner)
   };
 
   return (
